@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحويل - سوبركي</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="user-info">
+                <i class="fas fa-arrow-right" onclick="history.back()"></i>
+                <h2>تحويل</h2>
+            </div>
+            <div class="notifications">
+                <i class="fas fa-sign-out-alt" id="logout-btn"></i>
+            </div>
+        </header>
+
+        <div style="padding:20px;">
+            <form id="transfer-form">
+                <label>المستلم (البريد الإلكتروني)</label>
+                <input type="email" id="recipient-email" placeholder="example@domain.com" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:8px;">
+                
+                <label>المبلغ (د.ع)</label>
+                <input type="number" id="amount" min="1" placeholder="المبلغ" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ccc; border-radius:8px;">
+                
+                <button type="submit" style="width:100%; padding:14px; background:#0047ab; color:white; border:none; border-radius:8px; font-size:16px;">تحويل</button>
+            </form>
+            <div id="transfer-message" style="margin-top:20px; text-align:center;"></div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="wallet.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>المحفظة</span>
+            </a>
+            <a href="transfer.html" class="nav-item active">
+                <i class="fas fa-exchange-alt"></i>
+                <span>تحويل</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>حسابي</span>
+            </a>
+        </nav>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { checkAuth, logout } from './js/app.js';
+        import { collection, query, where, getDocs, doc, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        checkAuth();
+        document.getElementById('logout-btn').addEventListener('click', logout);
+
+        document.getElementById('transfer-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const recipientEmail = document.getElementById('recipient-email').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const sender = auth.currentUser;
+
+            if (!sender) return;
+            if (amount <= 0) {
+                document.getElementById('transfer-message').innerHTML = '<span style="color:red;">المبلغ يجب أن يكون أكبر من صفر</span>';
+                return;
+            }
+
+            try {
+                // البحث عن المستلم
+                const usersRef = collection(db, 'users');
+                const q = query(usersRef, where('email', '==', recipientEmail));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    document.getElementById('transfer-message').innerHTML = '<span style="color:red;">المستلم غير موجود</span>';
+                    return;
+                }
+
+                const recipientDoc = querySnapshot.docs[0];
+                const recipientId = recipientDoc.id;
+                const senderRef = doc(db, 'users', sender.uid);
+                const recipientRef = doc(db, 'users', recipientId);
+
+                await runTransaction(db, async (transaction) => {
+                    const senderSnap = await transaction.get(senderRef);
+                    const recipientSnap = await transaction.get(recipientRef);
+
+                    if (!senderSnap.exists() || !recipientSnap.exists()) throw new Error('أحد المستخدمين غير موجود');
+
+                    const senderBalance = senderSnap.data().balance;
+                    if (senderBalance < amount) throw new Error('الرصيد غير كافي');
+
+                    transaction.update(senderRef, { balance: senderBalance - amount });
+                    transaction.update(recipientRef, { balance: recipientSnap.data().balance + amount });
+                });
+
+                document.getElementById('transfer-message').innerHTML = '<span style="color:green;">✅ تم التحويل بنجاح</span>';
+                document.getElementById('transfer-form').reset();
+            } catch (error) {
+                document.getElementById('transfer-message').innerHTML = `<span style="color:red;">خطأ: ${error.message}</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
