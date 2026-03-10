@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إيداع - سوبركي</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* أنماط إضافية */
+        .address-box { background: #f0f0f0; padding: 15px; border-radius: 8px; direction: ltr; text-align: left; word-break: break-all; margin: 15px 0; }
+        button { background: #0047ab; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-size: 16px; cursor: pointer; margin: 5px 0; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
+        .note { background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="user-info">
+                <i class="fas fa-arrow-right" onclick="history.back()"></i>
+                <h2>إيداع عبر USDT</h2>
+            </div>
+            <div class="notifications">
+                <i class="fas fa-sign-out-alt" id="logout-btn"></i>
+            </div>
+        </header>
+
+        <div style="padding: 20px;">
+            <div class="note">
+                <strong>📌 تعليمات مهمة:</strong>
+                <ul style="margin-top:10px;">
+                    <li>أرسل مبلغ USDT (شبكة TRC20) فقط إلى العنوان أدناه.</li>
+                    <li>تأكد من اختيار شبكة TRC20 في محفظتك.</li>
+                    <li>الحد الأدنى للإيداع: 10 USDT.</li>
+                    <li>بعد الإرسال، أدخل TxID والمبلغ للتأكيد.</li>
+                </ul>
+            </div>
+
+            <div class="address-box" id="walletAddress">
+                YOUR_WALLET_ADDRESS_HERE   <!-- استبدل هذا -->
+            </div>
+            <button onclick="copyAddress()">📋 نسخ العنوان</button>
+
+            <!-- QR Code اختياري -->
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=YOUR_WALLET_ADDRESS_HERE" style="width:150px; height:150px;">
+            </div>
+
+            <h3>🔔 تأكيد الإيداع</h3>
+            <input type="text" id="txid" placeholder="رقم العملية (TxID)">
+            <input type="number" id="amount" placeholder="المبلغ (USDT)">
+            <button onclick="submitDeposit()">تأكيد الإيداع</button>
+            <p id="message" style="margin-top:15px;"></p>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="wallet.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>المحفظة</span>
+            </a>
+            <a href="transfer.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>تحويل</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>حسابي</span>
+            </a>
+        </nav>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { checkAuth, logout } from './js/app.js';
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        checkAuth();
+        document.getElementById('logout-btn').addEventListener('click', logout);
+
+        window.copyAddress = function() {
+            const address = document.getElementById('walletAddress').innerText;
+            navigator.clipboard.writeText(address).then(() => alert('تم نسخ العنوان!'));
+        };
+
+        window.submitDeposit = async function() {
+            const user = auth.currentUser;
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            const txid = document.getElementById('txid').value;
+            const amount = document.getElementById('amount').value;
+            if (!txid || !amount) {
+                alert('الرجاء إدخال جميع البيانات');
+                return;
+            }
+            try {
+                await addDoc(collection(db, 'deposits'), {
+                    userId: user.uid,
+                    userEmail: user.email,
+                    txid: txid,
+                    amount: parseFloat(amount),
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                });
+                document.getElementById('message').innerHTML = '✅ تم استلام طلبك، سنقوم بالتحقق وإضافة الرصيد خلال 24 ساعة.';
+                document.getElementById('txid').value = '';
+                document.getElementById('amount').value = '';
+            } catch (error) {
+                console.error(error);
+                alert('حدث خطأ، حاول مرة أخرى');
+            }
+        };
+    </script>
+</body>
+</html>
