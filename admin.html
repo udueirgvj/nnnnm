@@ -7,278 +7,187 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #2b2b52, #4a47a3);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             background-size: cover;
-            background-position: center;
         }
-
         .admin-container {
-            max-width: 1100px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(10px);
-            border-radius: 40px;
-            padding: 30px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+            border-radius: 35px;
+            padding: 25px;
         }
-
         h1 {
             color: #4a47a3;
             text-align: center;
-            font-size: 2.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 0 #a8e6cf;
         }
-
-        .colorful-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
         }
-
         .card {
             background: white;
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 1px solid rgba(108, 92, 231, 0.2);
-            transition: 0.3s;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
         .card h3 {
             color: #6c5ce7;
-            margin-bottom: 20px;
-            font-size: 1.4em;
-            border-bottom: 3px solid #a8e6cf;
-            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            border-bottom: 2px solid #a8e6cf;
+            padding-bottom: 8px;
         }
-
         button {
             background: linear-gradient(45deg, #6c5ce7, #a8e6cf);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 60px;
-            font-size: 1em;
-            font-weight: bold;
+            padding: 10px 18px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s;
             margin: 5px;
-            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
         }
-
-        button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 15px rgba(108, 92, 231, 0.5);
-        }
-
-        .danger-btn {
-            background: linear-gradient(45deg, #e74c3c, #f39c12);
-        }
-
-        .success-btn {
-            background: linear-gradient(45deg, #2ecc71, #27ae60);
-        }
-
-        input, textarea, .copy-field {
+        .danger-btn { background: linear-gradient(45deg, #e74c3c, #f39c12); }
+        .success-btn { background: linear-gradient(45deg, #2ecc71, #27ae60); }
+        input, textarea {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
-            border-radius: 40px;
-            font-size: 1em;
-            margin: 10px 0;
-            transition: 0.3s;
+            border-radius: 25px;
+            margin: 8px 0;
         }
-
-        input:focus, textarea:focus {
-            border-color: #6c5ce7;
-            outline: none;
-        }
-
         .preview-box {
             background: #f8f9fa;
-            border-radius: 30px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 15px;
             position: relative;
-            margin-top: 15px;
+            margin-top: 10px;
         }
-
         .close-btn {
             position: absolute;
-            left: 20px;
-            top: 20px;
+            left: 15px;
+            top: 15px;
             background: #e74c3c;
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 1.2em;
         }
-
         .appointments-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            gap: 10px;
-            max-height: 300px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            max-height: 250px;
             overflow-y: auto;
             padding: 10px;
         }
-
         .appointment-item {
             background: #ecf0f1;
-            border-radius: 20px;
-            padding: 10px;
+            border-radius: 10px;
+            padding: 8px;
             text-align: center;
-            font-size: 0.9em;
-            border: 1px solid #bdc3c7;
+            font-size: 0.8em;
         }
-
         .appointment-item.booked {
             background: #d4edda;
-            border-color: #28a745;
-            font-weight: bold;
         }
-
         .link-section {
             background: #f0f4ff;
-            border-radius: 60px;
-            padding: 20px;
+            border-radius: 30px;
+            padding: 15px;
             text-align: center;
-            margin-top: 30px;
+            margin: 20px 0;
         }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
+        .micro-footer {
             margin-top: 20px;
+            text-align: center;
+            font-size: 0.5rem;
+            color: #aaa;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
         }
-
-        .social-icons a {
-            color: #6c5ce7;
-            font-size: 2.5em;
-            transition: 0.3s;
+        .micro-footer a {
+            color: #999;
+            margin: 0 2px;
+            font-size: 0.6rem;
         }
-
-        .social-icons a:hover {
-            color: #a8e6cf;
-            transform: scale(1.1);
-        }
-
-        hr {
-            margin: 30px 0 20px;
-            border: 2px dashed #a8e6cf;
-        }
-
-        .info-note {
-            background: #d1ecf1;
-            border-right: 5px solid #17a2b8;
-            padding: 10px;
-            border-radius: 20px;
-            margin-top: 10px;
-            font-size: 0.9em;
+        .micro-footer i {
+            font-size: 0.6rem;
         }
     </style>
 </head>
 <body>
     <div class="admin-container">
-        <h1><i class="fas fa-crown"></i> لوحة تحكم المالك <i class="fas fa-crown"></i></h1>
+        <h1><i class="fas fa-crown"></i> لوحة المالك</h1>
 
-        <!-- بطاقات التحكم -->
-        <div class="colorful-grid">
-            <!-- بطاقة تغيير العدد -->
+        <div class="grid">
             <div class="card">
                 <h3><i class="fas fa-hashtag"></i> عدد الحجوزات</h3>
-                <button onclick="changeMax()"><i class="fas fa-edit"></i> تغيير العدد</button>
+                <button onclick="changeMax()">تغيير العدد</button>
                 <p>العدد الحالي: <strong id="currentMax">17</strong></p>
             </div>
-
-            <!-- بطاقة رفع الخلفية -->
             <div class="card">
-                <h3><i class="fas fa-image"></i> خلفية الموقع</h3>
+                <h3><i class="fas fa-image"></i> الخلفية</h3>
                 <input type="file" id="bgUpload" accept="image/*" onchange="uploadBg(event)">
-                <button onclick="resetBg()" class="danger-btn"><i class="fas fa-undo"></i> إعادة الافتراضية</button>
+                <button onclick="resetBg()" class="danger-btn">إعادة الافتراضي</button>
             </div>
-
-            <!-- بطاقة الرسالة المؤقتة -->
             <div class="card">
-                <h3><i class="fas fa-bullhorn"></i> رسالة للمستخدمين</h3>
-                <textarea id="announcementInput" rows="2" placeholder="اكتب رسالة تظهر للجميع..."></textarea>
-                <button onclick="saveAnnouncement()" class="success-btn"><i class="fas fa-save"></i> حفظ</button>
-                <button onclick="deleteAnnouncement()" class="danger-btn"><i class="fas fa-trash"></i> حذف</button>
+                <h3><i class="fas fa-bullhorn"></i> رسالة</h3>
+                <textarea id="announcementInput" rows="2" placeholder="رسالة للمستخدمين..."></textarea>
+                <button onclick="saveAnnouncement()" class="success-btn">حفظ</button>
+                <button onclick="deleteAnnouncement()" class="danger-btn">حذف</button>
                 <div id="announcementPreview" class="preview-box" style="display: none;">
                     <span class="close-btn" onclick="deleteAnnouncement()">×</span>
-                    <strong>الرسالة الحالية:</strong>
                     <p id="announcementText"></p>
                 </div>
             </div>
-
-            <!-- بطاقة رابط المالك -->
             <div class="card">
-                <h3><i class="fas fa-link"></i> رابط صفحة المالك</h3>
-                <div class="copy-field" id="adminLink" onclick="copyAdminLink()" style="cursor: pointer; direction: ltr; text-align: left;">
-                    <i class="fas fa-copy"></i> اضغط لنسخ الرابط
-                </div>
-                <p style="color: #7f8c8d; font-size: 0.9em;">شارك هذا الرابط مع المالك</p>
+                <h3><i class="fas fa-link"></i> رابط المالك</h3>
+                <div id="adminLink" style="direction:ltr; font-size:0.8em; word-break:break-all;">جاري التحميل...</div>
+                <button onclick="copyAdminLink()">نسخ الرابط</button>
             </div>
         </div>
 
-        <!-- قائمة الحجوزات الحالية -->
-        <div class="card" style="margin-top: 20px;">
-            <h3><i class="fas fa-list"></i> الحجوزات الحالية</h3>
+        <div class="card">
+            <h3>الحجوزات الحالية</h3>
             <div id="appointmentsList" class="appointments-list"></div>
         </div>
 
-        <!-- إحصائية سريعة -->
-        <div class="info-note">
-            <i class="fas fa-info-circle"></i> ملاحظة: كل شخص يمكنه حجز موعد واحد فقط كل 24 ساعة.
-        </div>
-
-        <!-- رمز QR لصفحة المستخدم -->
         <div class="link-section">
-            <h3><i class="fas fa-qrcode"></i> باركود صفحة الحجز</h3>
+            <h3>باركود صفحة الحجز</h3>
             <div id="qrcode"></div>
-            <p>امسح للدخول إلى صفحة المستخدم</p>
         </div>
 
-        <!-- روابط التواصل الاجتماعي -->
-        <hr>
-        <div class="social-icons">
-            <a href="https://www.facebook.com/share/19RMEicYip/" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://t.me/eieici" target="_blank"><i class="fab fa-telegram"></i></a>
-            <a href="https://wa.me/9647876459282" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <!-- تذييل صغير جداً للمالك -->
+        <div class="micro-footer">
+            <div>
+                <a href="https://www.facebook.com/share/19RMEicYip/" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://t.me/eieici" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="https://wa.me/9647876459282" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <div>• • •</div>
+            <div>مطور الصفحة</div>
         </div>
-        <p style="text-align: center; color: #aaa; margin-top: 20px;">جميع الحقوق محفوظة &copy; 2025</p>
     </div>
 
     <script>
-        // نفس المفاتيح
         const APPOINTMENTS_KEY = 'dr_ali_appointments';
         const MAX_APPOINTMENTS_KEY = 'dr_ali_max';
-        const LAST_RESET_KEY = 'dr_ali_last_reset';
         const BACKGROUND_KEY = 'dr_ali_background';
         const ANNOUNCEMENT_KEY = 'dr_ali_announcement';
-        const LAST_BOOKING_KEY = 'dr_ali_last_booking'; // نفس المفتاح
 
         (function init() {
             updateMaxDisplay();
@@ -304,24 +213,21 @@
 
         function changeMax() {
             let current = getMax();
-            let newMax = prompt('أدخل العدد الجديد للحجوزات المسموح بها:', current);
+            let newMax = prompt('العدد الجديد:', current);
             if (!newMax) return;
             newMax = parseInt(newMax);
-            if (isNaN(newMax) || newMax < 1) {
-                alert('الرجاء إدخال رقم صحيح موجب');
-                return;
-            }
+            if (newMax < 1) return;
 
             let appointments = JSON.parse(localStorage.getItem(APPOINTMENTS_KEY)) || [];
             const bookedCount = appointments.filter(a => a !== null).length;
             if (newMax < bookedCount) {
-                alert(`لا يمكن تقليل العدد إلى ${newMax} لأن هناك ${bookedCount} حجزاً موجوداً.`);
+                alert(`يوجد ${bookedCount} حجز، لا يمكن التخفيض`);
                 return;
             }
 
             if (newMax > appointments.length) {
                 for (let i = appointments.length; i < newMax; i++) appointments.push(null);
-            } else if (newMax < appointments.length) {
+            } else {
                 appointments = appointments.slice(0, newMax);
             }
 
@@ -353,7 +259,7 @@
                 localStorage.setItem(ANNOUNCEMENT_KEY, text);
                 loadAnnouncementPreview();
                 document.getElementById('announcementInput').value = '';
-            } else alert('الرجاء كتابة الرسالة');
+            }
         }
 
         function deleteAnnouncement() {
@@ -386,7 +292,7 @@
             for (let i = 0; i < max; i++) {
                 const div = document.createElement('div');
                 div.className = 'appointment-item' + (appointments[i] ? ' booked' : '');
-                div.textContent = `${i+1}${appointments[i] ? ' - ' + appointments[i] : ''}`;
+                div.innerHTML = `${i+1}<br>${appointments[i] || '______'}`;
                 container.appendChild(div);
             }
         }
@@ -398,22 +304,15 @@
             const qr = qrcode(0, 'M');
             qr.addData(userUrl);
             qr.make();
-            qrContainer.innerHTML = qr.createImgTag(5);
+            qrContainer.innerHTML = qr.createImgTag(4);
         }
 
         function displayAdminLink() {
-            const linkDiv = document.getElementById('adminLink');
-            const url = window.location.href;
-            linkDiv.innerHTML = `<i class="fas fa-copy"></i> ${url}`;
+            document.getElementById('adminLink').textContent = window.location.href;
         }
 
         function copyAdminLink() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => {
-                alert('تم نسخ الرابط!');
-            }).catch(() => {
-                prompt('انسخ الرابط يدوياً:', url);
-            });
+            navigator.clipboard.writeText(window.location.href).then(() => alert('تم النسخ!'));
         }
     </script>
 </body>
