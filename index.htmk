@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيادة الدكتور علي - حجز مواعيد</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #27ae60;
+            --bg-image: url('https://via.placeholder.com/1920x1080');
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            margin: auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .header { color: var(--primary-color); }
+        .alert-msg {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            position: relative;
+            display: none;
+        }
+        .close-msg {
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+        }
+        input, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .success-box {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+        .list-container {
+            text-align: right;
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .admin-panel {
+            margin-top: 50px;
+            border-top: 2px solid #ddd;
+            padding-top: 20px;
+            display: none;
+        }
+        .social-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body id="bodyBg">
+
+<div class="container">
+    <h2 class="header">مرحباً بكم في عيادة الدكتور علي</h2>
+    
+    <div id="ownerMessage" class="alert-msg">
+        <span class="close-msg" onclick="hideMessage()">X</span>
+        <span id="msgContent"></span>
+    </div>
+
+    <div id="bookingSection">
+        <p>ادخل اسمك للحجز:</p>
+        <input type="text" id="userName" placeholder="الاسم الكامل">
+        <button onclick="makeBooking()">إرسال</button>
+    </div>
+
+    <div id="successMsg" class="success-box"></div>
+
+    <hr>
+    <h3>قائمة الحجوزات</h3>
+    <div class="list-container" id="bookingList">
+        </div>
+
+    <div class="social-links">
+        <hr>
+        <p>تواصل معنا:</p>
+        <a href="https://www.facebook.com/share/19RMEicYip/">فيسبوك</a>
+        <a href="https://t.me/eieici">تلغرام</a>
+        <a href="https://wa.me/9647876459282">واتساب</a>
+    </div>
+
+    <button style="background: #ccc; color: #333; margin-top: 20px;" onclick="toggleAdmin()">لوحة المالك</button>
+
+    <div id="adminPanel" class="admin-panel">
+        <h3>لوحة التحكم (المالك)</h3>
+        <p>تغيير الحد الأقصى للحجوزات:</p>
+        <input type="number" id="maxLimit" placeholder="مثلاً 40">
+        <button onclick="updateLimit()">تحديث العدد</button>
+
+        <p>إرسال رسالة للمستخدمين:</p>
+        <input type="text" id="newMsg" placeholder="اكتب الرسالة هنا">
+        <button onclick="updateMessage()">نشر الرسالة</button>
+
+        <p>تغيير الخلفية:</p>
+        <input type="file" id="bgUpload" accept="image/*" onchange="changeBg(event)">
+    </div>
+</div>
+
+<script>
+    // الإعدادات الافتراضية
+    let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+    let maxLimit = localStorage.getItem('maxLimit') || 100;
+    let lastReset = localStorage.getItem('lastReset') || Date.now();
+
+    // فحص الـ 24 ساعة للتصفير
+    if (Date.now() - lastReset > 24 * 60 * 60 * 1000) {
+        bookings = [];
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        localStorage.setItem('lastReset', Date.now());
+    }
+
+    function renderBookings() {
+        const listDiv = document.getElementById('bookingList');
+        listDiv.innerHTML = "";
+        for (let i = 1; i <= maxLimit; i++) {
+            let name = bookings[i-1] ? ` <b>${bookings[i-1]}</b>` : "";
+            listDiv.innerHTML += `<div>${i} ${name}</div>`;
+        }
+    }
+
+    function makeBooking() {
+        let name = document.getElementById('userName').value;
+        if (!name) return alert("يرجى إدخال الاسم");
+
+        if (bookings.length >= maxLimit) {
+            alert("⚠️ عذراً عزيزي تم الوصول إلى حد القصة، حاول في يوم ثاني");
+            return;
+        }
+
+        bookings.push(name);
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        
+        document.getElementById('successMsg').style.display = "block";
+        document.getElementById('successMsg').innerHTML = `تم حجز رقم حجز ${bookings.length}`;
+        document.getElementById('userName').value = "";
+        renderBookings();
+    }
+
+    // وظائف المالك
+    function toggleAdmin() {
+        let pass = prompt("أدخل كلمة مرور المالك:");
+        if (pass === "1234") {
+            document.getElementById('adminPanel').style.display = "block";
+        } else {
+            alert("كلمة مرور خاطئة");
+        }
+    }
+
+    function updateLimit() {
+        maxLimit = document.getElementById('maxLimit').value;
+        localStorage.setItem('maxLimit', maxLimit);
+        renderBookings();
+        alert("تم تحديث العدد المسموح");
+    }
+
+    function updateMessage() {
+        let msg = document.getElementById('newMsg').value;
+        localStorage.setItem('clinicMsg', msg);
+        showMsg(msg);
+    }
+
+    function showMsg(msg) {
+        if (msg) {
+            document.getElementById('ownerMessage').style.display = "block";
+            document.getElementById('msgContent').innerText = msg;
+        }
+    }
+
+    function hideMessage() {
+        document.getElementById('ownerMessage').style.display = "none";
+        localStorage.removeItem('clinicMsg');
+    }
+
+    function changeBg(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            document.body.style.backgroundImage = `url(${reader.result})`;
+            localStorage.setItem('customBg', reader.result);
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // تحميل البيانات عند فتح الصفحة
+    window.onload = () => {
+        renderBookings();
+        showMsg(localStorage.getItem('clinicMsg'));
+        if (localStorage.getItem('customBg')) {
+            document.body.style.backgroundImage = `url(${localStorage.getItem('customBg')})`;
+        }
+    }
+</script>
+
+</body>
+</html>
+
