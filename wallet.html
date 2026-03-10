@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المحفظة - سوبركي</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="user-info">
+                <i class="fas fa-arrow-right" onclick="history.back()"></i>
+                <h2>المحفظة</h2>
+            </div>
+            <div class="notifications">
+                <i class="fas fa-sign-out-alt" id="logout-btn"></i>
+            </div>
+        </header>
+
+        <div class="balance-card" style="margin-bottom:20px;">
+            <div class="balance-header">
+                <span>رصيد المحفظة</span>
+            </div>
+            <div class="balance-amount" id="wallet-balance">0 <span>د.ع</span></div>
+        </div>
+
+        <div style="padding:10px;">
+            <h3>أحدث الحركات</h3>
+            <ul class="transactions-list" id="transactions-list">
+                <!-- يمكن جلبها من Firestore لاحقاً -->
+                <li class="transaction-item">
+                    <i class="fas fa-arrow-up sent"></i>
+                    <div class="transaction-details">
+                        <span class="transaction-name">تحويل إلى أحمد</span>
+                        <span class="transaction-date">اليوم</span>
+                    </div>
+                    <span class="transaction-amount negative">- 50,000</span>
+                </li>
+                <li class="transaction-item">
+                    <i class="fas fa-arrow-down received"></i>
+                    <div class="transaction-details">
+                        <span class="transaction-name">إيداع عبر USDT</span>
+                        <span class="transaction-date">أمس</span>
+                    </div>
+                    <span class="transaction-amount positive">+ 100,000</span>
+                </li>
+            </ul>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="wallet.html" class="nav-item active">
+                <i class="fas fa-wallet"></i>
+                <span>المحفظة</span>
+            </a>
+            <a href="transfer.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>تحويل</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>حسابي</span>
+            </a>
+        </nav>
+    </div>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { checkAuth, logout } from './js/app.js';
+        import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        checkAuth();
+        document.getElementById('logout-btn').addEventListener('click', logout);
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const userRef = doc(db, 'users', user.uid);
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    const data = userSnap.data();
+                    document.getElementById('wallet-balance').innerHTML = `${data.balance.toLocaleString()} <span>د.ع</span>`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
