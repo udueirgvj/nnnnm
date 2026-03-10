@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عيادة الدكتور علي - حجز موعد</title>
-    <!-- Font Awesome للأيقونات -->
+    <!-- Font Awesome للأيقونات الصغيرة -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- مكتبة QR Code -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
@@ -22,102 +22,90 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px;
             transition: background-image 0.3s;
             background-size: cover;
             background-position: center;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 850px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 35px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
         h1 {
             color: #4a47a3;
             text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 2em;
+            margin-bottom: 5px;
         }
 
         .clinic-name {
             text-align: center;
             color: #6c5ce7;
-            font-size: 1.4em;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
             border-bottom: 3px solid #a8e6cf;
-            display: inline-block;
-            width: 100%;
         }
 
         .booking-form {
             display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 10px;
+            margin-bottom: 20px;
             background: #f0f4ff;
-            padding: 20px;
+            padding: 15px;
             border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.2);
         }
 
         .booking-form input {
             flex: 1;
-            padding: 15px 20px;
+            padding: 12px 20px;
             border: none;
             border-radius: 50px;
-            font-size: 1.1em;
+            font-size: 1em;
             background: white;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
-            transition: 0.3s;
         }
 
         .booking-form input:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px #a8e6cf;
+            outline: 2px solid #a8e6cf;
         }
 
         .booking-form button {
-            padding: 15px 40px;
+            padding: 12px 30px;
             background: linear-gradient(45deg, #6c5ce7, #a8e6cf);
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+            transition: 0.2s;
         }
 
         .booking-form button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6);
+            transform: scale(1.02);
         }
 
         .message-area {
-            background: linear-gradient(135deg, #fff9e6, #fff3cd);
-            padding: 15px 25px;
+            background: #fff3cd;
+            padding: 12px 20px;
             border-radius: 50px;
-            margin-bottom: 25px;
-            border-right: 8px solid #ffb347;
+            margin-bottom: 20px;
+            border-right: 5px solid #ffb347;
             font-weight: 500;
-            color: #856404;
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 5px 15px rgba(255, 180, 70, 0.3);
         }
 
         .warning-message {
-            background: linear-gradient(135deg, #ffe6e6, #ffcccc);
+            background: #ffe6e6;
             border-right-color: #e74c3c;
             color: #c0392b;
         }
@@ -126,109 +114,116 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 25px 0 15px;
+            margin: 15px 0 10px;
         }
 
         .appointments-header h3 {
             color: #4a47a3;
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
 
         .max-badge {
             background: #6c5ce7;
             color: white;
-            padding: 8px 20px;
+            padding: 5px 15px;
             border-radius: 50px;
             font-weight: bold;
+            font-size: 0.9em;
         }
 
+        /* شبكة المربعات - بنفس تصميم الصورة */
         .appointments-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 12px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
         }
 
         .appointment-item {
             background: #f8f9fa;
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 12px 5px;
             text-align: center;
-            font-size: 0.95em;
-            border: 2px solid #e0e0e0;
-            transition: 0.3s;
-            color: #2c3e50;
+            font-size: 0.9em;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            min-height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            word-break: break-word;
         }
 
         .appointment-item.booked {
-            background: linear-gradient(145deg, #d4edda, #c3e6cb);
+            background: #d4edda;
             border-color: #28a745;
             color: #155724;
             font-weight: bold;
-            transform: scale(1.02);
         }
 
-        .social-section {
-            margin-top: 40px;
+        .appointment-number {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .appointment-name {
+            font-size: 0.85em;
+            line-height: 1.3;
+        }
+
+        /* تذييل صغير جداً */
+        .micro-footer {
+            margin-top: 25px;
             text-align: center;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 60px;
-        }
-
-        .social-icons {
+            font-size: 0.6rem;
+            color: #aaa;
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-top: 15px;
+            align-items: center;
+            gap: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 12px;
         }
 
-        .social-icons a {
-            color: #6c5ce7;
-            font-size: 2.2em;
-            transition: 0.3s;
+        .micro-footer a {
+            color: #999;
+            text-decoration: none;
+            margin: 0 3px;
+            font-size: 0.7rem;
         }
 
-        .social-icons a:hover {
-            transform: translateY(-5px);
-            color: #a8e6cf;
-        }
-
-        .footer {
-            text-align: center;
-            color: #aaa;
-            margin-top: 20px;
-            font-size: 0.9em;
+        .micro-footer i {
+            font-size: 0.7rem;
+            margin: 0 2px;
+            color: #bbb;
         }
 
         .qr-mini {
             display: flex;
             justify-content: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
         .qr-mini img {
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            max-width: 120px;
+            border-radius: 10px;
+            max-width: 80px;
         }
 
         @media (max-width: 600px) {
+            .appointments-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
             .booking-form {
                 flex-direction: column;
-                border-radius: 30px;
-            }
-            .appointments-grid {
-                grid-template-columns: repeat(5, 1fr);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>مرحباً بكم في عيادة الدكتور علي</h1>
-        <div class="clinic-name"><i class="fas fa-stethoscope"></i> عيادة الدكتور علي <i class="fas fa-heartbeat"></i></div>
+        <h1>عيادة الدكتور علي</h1>
+        <div class="clinic-name"><i class="fas fa-stethoscope"></i> د. علي الرحال <i class="fas fa-heartbeat"></i></div>
 
-        <!-- منطقة الإشعارات (من المالك) -->
+        <!-- إشعار المالك -->
         <div id="announcementDiv" class="message-area" style="display: none;">
             <i class="fas fa-bullhorn"></i>
             <span id="announcementText"></span>
@@ -245,39 +240,35 @@
 
         <!-- عداد الحجوزات -->
         <div class="appointments-header">
-            <h3><i class="fas fa-calendar-check"></i> قائمة الحجوزات</h3>
+            <h3><i class="fas fa-calendar-alt"></i> قائمة الحجوزات</h3>
             <span class="max-badge" id="maxCountSpan">0</span>
         </div>
 
-        <!-- شبكة الحجوزات -->
+        <!-- شبكة الحجوزات - مربعات -->
         <div id="appointmentsList" class="appointments-grid"></div>
 
-        <!-- رمز QR لصفحة المستخدم (اختياري) -->
+        <!-- رمز QR صغير -->
         <div class="qr-mini" id="qrContainer"></div>
 
-        <!-- أيقونات التواصل الاجتماعي -->
-        <div class="social-section">
-            <p>تابعنا على</p>
-            <div class="social-icons">
+        <!-- تذييل صغير جداً مع أيقونات ومطور الصفحة -->
+        <div class="micro-footer">
+            <div>
                 <a href="https://www.facebook.com/share/19RMEicYip/" target="_blank"><i class="fab fa-facebook"></i></a>
                 <a href="https://t.me/eieici" target="_blank"><i class="fab fa-telegram"></i></a>
                 <a href="https://wa.me/9647876459282" target="_blank"><i class="fab fa-whatsapp"></i></a>
             </div>
-        </div>
-
-        <div class="footer">
-            جميع الحقوق محفوظة &copy; 2025
+            <div>• • •</div>
+            <div>مطور الصفحة</div>
         </div>
     </div>
 
     <script>
-        // مفاتيح localStorage
         const APPOINTMENTS_KEY = 'dr_ali_appointments';
         const MAX_APPOINTMENTS_KEY = 'dr_ali_max';
         const LAST_RESET_KEY = 'dr_ali_last_reset';
         const BACKGROUND_KEY = 'dr_ali_background';
         const ANNOUNCEMENT_KEY = 'dr_ali_announcement';
-        const LAST_BOOKING_KEY = 'dr_ali_last_booking'; // تخزين آخر وقت حجز لكل اسم
+        const LAST_BOOKING_KEY = 'dr_ali_last_booking';
 
         (function init() {
             autoResetIfNeeded();
@@ -287,12 +278,11 @@
             generateQR();
         })();
 
-        // إعادة الضبط التلقائي كل 24 ساعة
         function autoResetIfNeeded() {
             const lastReset = localStorage.getItem(LAST_RESET_KEY);
             const now = Date.now();
-            const TWENTY_FOUR_HOURS = 86400000;
-            if (lastReset && (now - parseInt(lastReset) >= TWENTY_FOUR_HOURS)) {
+            const DAY = 86400000;
+            if (lastReset && (now - parseInt(lastReset) >= DAY)) {
                 resetAppointments();
                 localStorage.setItem(LAST_RESET_KEY, now.toString());
             } else if (!lastReset) {
@@ -304,7 +294,6 @@
             const max = getMaxAppointments();
             const empty = new Array(max).fill(null);
             localStorage.setItem(APPOINTMENTS_KEY, JSON.stringify(empty));
-            // لا نقوم بمسجل سجل الحجوزات الفردية لأنها تعتمد على الوقت
         }
 
         function getMaxAppointments() {
@@ -339,19 +328,14 @@
             }
         }
 
-        // دالة التحقق من إمكانية الحجز لشخص معين
         function canBookNow(name) {
             const lastBookingJson = localStorage.getItem(LAST_BOOKING_KEY);
             const lastBooking = lastBookingJson ? JSON.parse(lastBookingJson) : {};
             const lastTime = lastBooking[name];
-            if (!lastTime) return true; // لم يحجز من قبل
-
-            const now = Date.now();
-            const TWENTY_FOUR_HOURS = 86400000;
-            return (now - lastTime) >= TWENTY_FOUR_HOURS;
+            if (!lastTime) return true;
+            return (Date.now() - lastTime) >= 86400000;
         }
 
-        // دالة تسجيل وقت الحجز
         function recordBooking(name) {
             const lastBookingJson = localStorage.getItem(LAST_BOOKING_KEY);
             const lastBooking = lastBookingJson ? JSON.parse(lastBookingJson) : {};
@@ -367,9 +351,8 @@
                 return;
             }
 
-            // التحقق من إمكانية الحجز (مرة كل 24 ساعة)
             if (!canBookNow(name)) {
-                showMessage('⚠ عذراً، يمكنك حجز موعد واحد فقط كل 24 ساعة. الرجاء المحاولة غداً.', 'warning');
+                showMessage('⚠ يمكنك حجز موعد واحد فقط كل 24 ساعة. حاول غداً.', 'warning');
                 return;
             }
 
@@ -378,18 +361,15 @@
 
             const firstEmpty = appointments.findIndex(v => v === null);
             if (firstEmpty === -1) {
-                showMessage('⚠ عذراً، تم الوصول إلى الحد الأقصى للحجوزات اليوم. حاول غداً.', 'warning');
+                showMessage('⚠ العدد مكتمل اليوم، حاول غداً.', 'warning');
                 return;
             }
 
-            // حجز المكان
             appointments[firstEmpty] = name;
             saveAppointments(appointments);
-
-            // تسجيل وقت الحجز لهذا الاسم
             recordBooking(name);
 
-            showMessage(`✅ تم حجز رقم ${firstEmpty + 1} للاسم: ${name}`, 'success');
+            showMessage(`✅ تم حجز رقم ${firstEmpty + 1}`, 'success');
             nameInput.value = '';
             updateAppointmentsDisplay();
         }
@@ -412,22 +392,30 @@
             for (let i = 0; i < max; i++) {
                 const div = document.createElement('div');
                 div.className = 'appointment-item' + (appointments[i] ? ' booked' : '');
-                div.textContent = `${i+1}${appointments[i] ? ' - ' + appointments[i] : ''}`;
+                
+                const numberSpan = document.createElement('div');
+                numberSpan.className = 'appointment-number';
+                numberSpan.textContent = i + 1;
+                
+                const nameSpan = document.createElement('div');
+                nameSpan.className = 'appointment-name';
+                nameSpan.textContent = appointments[i] || '______';
+                
+                div.appendChild(numberSpan);
+                div.appendChild(nameSpan);
                 container.appendChild(div);
             }
         }
 
-        // توليد QR لصفحة المستخدم
         function generateQR() {
             const qrContainer = document.getElementById('qrContainer');
-            const url = window.location.href; // رابط الصفحة الحالية
+            const url = window.location.href;
             const qr = qrcode(0, 'M');
             qr.addData(url);
             qr.make();
-            qrContainer.innerHTML = qr.createImgTag(4);
+            qrContainer.innerHTML = qr.createImgTag(3);
         }
 
-        // مراقبة التغييرات كل دقيقة
         setInterval(() => {
             autoResetIfNeeded();
             updateAppointmentsDisplay();
