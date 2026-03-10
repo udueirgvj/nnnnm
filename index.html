@@ -2,425 +2,130 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عيادة الدكتور علي - حجز موعد</title>
-    <!-- Font Awesome للأيقونات الصغيرة -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سوبركي - الرئيسية</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- أيقونات من Font Awesome (مجانية) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- مكتبة QR Code -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            transition: background-image 0.3s;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .container {
-            max-width: 850px;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
-            border-radius: 35px;
-            padding: 25px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
-
-        h1 {
-            color: #4a47a3;
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 5px;
-        }
-
-        .clinic-name {
-            text-align: center;
-            color: #6c5ce7;
-            font-size: 1.3em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #a8e6cf;
-        }
-
-        .booking-form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: #f0f4ff;
-            padding: 15px;
-            border-radius: 50px;
-        }
-
-        .booking-form input {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1em;
-            background: white;
-        }
-
-        .booking-form input:focus {
-            outline: 2px solid #a8e6cf;
-        }
-
-        .booking-form button {
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #6c5ce7, #a8e6cf);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .booking-form button:hover {
-            transform: scale(1.02);
-        }
-
-        .message-area {
-            background: #fff3cd;
-            padding: 12px 20px;
-            border-radius: 50px;
-            margin-bottom: 20px;
-            border-right: 5px solid #ffb347;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .warning-message {
-            background: #ffe6e6;
-            border-right-color: #e74c3c;
-            color: #c0392b;
-        }
-
-        .appointments-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0 10px;
-        }
-
-        .appointments-header h3 {
-            color: #4a47a3;
-            font-size: 1.3em;
-        }
-
-        .max-badge {
-            background: #6c5ce7;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
-
-        /* شبكة المربعات - بنفس تصميم الصورة */
-        .appointments-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .appointment-item {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 12px 5px;
-            text-align: center;
-            font-size: 0.9em;
-            border: 2px solid #dee2e6;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            min-height: 70px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            word-break: break-word;
-        }
-
-        .appointment-item.booked {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-            font-weight: bold;
-        }
-
-        .appointment-number {
-            font-size: 0.9em;
-            color: #6c757d;
-        }
-
-        .appointment-name {
-            font-size: 0.85em;
-            line-height: 1.3;
-        }
-
-        /* تذييل صغير جداً */
-        .micro-footer {
-            margin-top: 25px;
-            text-align: center;
-            font-size: 0.6rem;
-            color: #aaa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 12px;
-        }
-
-        .micro-footer a {
-            color: #999;
-            text-decoration: none;
-            margin: 0 3px;
-            font-size: 0.7rem;
-        }
-
-        .micro-footer i {
-            font-size: 0.7rem;
-            margin: 0 2px;
-            color: #bbb;
-        }
-
-        .qr-mini {
-            display: flex;
-            justify-content: center;
-            margin: 10px 0;
-        }
-        .qr-mini img {
-            border-radius: 10px;
-            max-width: 80px;
-        }
-
-        @media (max-width: 600px) {
-            .appointments-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            .booking-form {
-                flex-direction: column;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>عيادة الدكتور علي</h1>
-        <div class="clinic-name"><i class="fas fa-stethoscope"></i> د. علي الرحال <i class="fas fa-heartbeat"></i></div>
-
-        <!-- إشعار المالك -->
-        <div id="announcementDiv" class="message-area" style="display: none;">
-            <i class="fas fa-bullhorn"></i>
-            <span id="announcementText"></span>
-        </div>
-
-        <!-- نموذج الحجز -->
-        <div class="booking-form">
-            <input type="text" id="nameInput" placeholder="الاسم الثلاثي (مثال: زهراء أحمد عباس)">
-            <button onclick="bookAppointment()"><i class="fas fa-paper-plane"></i> حجز</button>
-        </div>
-
-        <!-- رسالة الحجز الفردي -->
-        <div id="singleMessage" class="message-area" style="display: none;"></div>
-
-        <!-- عداد الحجوزات -->
-        <div class="appointments-header">
-            <h3><i class="fas fa-calendar-alt"></i> قائمة الحجوزات</h3>
-            <span class="max-badge" id="maxCountSpan">0</span>
-        </div>
-
-        <!-- شبكة الحجوزات - مربعات -->
-        <div id="appointmentsList" class="appointments-grid"></div>
-
-        <!-- رمز QR صغير -->
-        <div class="qr-mini" id="qrContainer"></div>
-
-        <!-- تذييل صغير جداً مع أيقونات ومطور الصفحة -->
-        <div class="micro-footer">
-            <div>
-                <a href="https://www.facebook.com/share/19RMEicYip/" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://t.me/eieici" target="_blank"><i class="fab fa-telegram"></i></a>
-                <a href="https://wa.me/9647876459282" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <div class="app-container">
+        <!-- الشريط العلوي -->
+        <header class="header">
+            <div class="user-info">
+                <i class="fas fa-bars menu-icon"></i>
+                <div>
+                    <p class="welcome">مرحباً بك 👋</p>
+                    <h3 class="user-name">أحمد محمد</h3>
+                </div>
             </div>
-            <div>• • •</div>
-            <div>مطور الصفحة</div>
+            <div class="notifications">
+                <i class="fas fa-bell"></i>
+            </div>
+        </header>
+
+        <!-- بطاقة الرصيد -->
+        <div class="balance-card">
+            <div class="balance-header">
+                <span>الرصيد الحالي</span>
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="balance-amount">1,250,000 <span>د.ع</span></div>
+            <div class="balance-footer">
+                <div class="balance-item">
+                    <span>آخر إيداع</span>
+                    <strong>+ 500,000</strong>
+                </div>
+                <div class="balance-item">
+                    <span>آخر سحب</span>
+                    <strong>- 150,000</strong>
+                </div>
+            </div>
         </div>
+
+        <!-- شبكة الخدمات السريعة -->
+        <div class="services-grid">
+            <div class="service-item" onclick="alert('تحويل الأموال - قيد التطوير')">
+                <i class="fas fa-exchange-alt"></i>
+                <span>تحويل</span>
+            </div>
+            <div class="service-item" onclick="alert('دفع الفواتير - قيد التطوير')">
+                <i class="fas fa-file-invoice"></i>
+                <span>فواتير</span>
+            </div>
+            <div class="service-item" onclick="alert('شحن رصيد - قيد التطوير')">
+                <i class="fas fa-mobile-alt"></i>
+                <span>شحن</span>
+            </div>
+            <div class="service-item" onclick="alert('مسح رمز QR - قيد التطوير')">
+                <i class="fas fa-qrcode"></i>
+                <span>مسح QR</span>
+            </div>
+            <div class="service-item" onclick="alert('بطاقات - قيد التطوير')">
+                <i class="fas fa-credit-card"></i>
+                <span>بطاقات</span>
+            </div>
+            <div class="service-item" onclick="alert('المزيد - قيد التطوير')">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>المزيد</span>
+            </div>
+        </div>
+
+        <!-- آخر المعاملات -->
+        <div class="transactions">
+            <div class="section-header">
+                <h3>آخر المعاملات</h3>
+                <a href="#">عرض الكل</a>
+            </div>
+            <ul class="transactions-list">
+                <li class="transaction-item">
+                    <i class="fas fa-arrow-down received"></i>
+                    <div class="transaction-details">
+                        <span class="transaction-name">تحويل وارد من علي</span>
+                        <span class="transaction-date">اليوم، 10:30 ص</span>
+                    </div>
+                    <span class="transaction-amount positive">+ 75,000</span>
+                </li>
+                <li class="transaction-item">
+                    <i class="fas fa-arrow-up sent"></i>
+                    <div class="transaction-details">
+                        <span class="transaction-name">دفع فاتورة كهرباء</span>
+                        <span class="transaction-date">أمس، 8:15 م</span>
+                    </div>
+                    <span class="transaction-amount negative">- 120,000</span>
+                </li>
+                <li class="transaction-item">
+                    <i class="fas fa-arrow-down received"></i>
+                    <div class="transaction-details">
+                        <span class="transaction-name">إيداع راتب</span>
+                        <span class="transaction-date">2024-03-01</span>
+                    </div>
+                    <span class="transaction-amount positive">+ 850,000</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- القائمة السفلية -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </a>
+            <a href="wallet.html" class="nav-item">
+                <i class="fas fa-wallet"></i>
+                <span>المحفظة</span>
+            </a>
+            <a href="transfer.html" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>تحويل</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>حسابي</span>
+            </a>
+        </nav>
     </div>
 
-    <script>
-        const APPOINTMENTS_KEY = 'dr_ali_appointments';
-        const MAX_APPOINTMENTS_KEY = 'dr_ali_max';
-        const LAST_RESET_KEY = 'dr_ali_last_reset';
-        const BACKGROUND_KEY = 'dr_ali_background';
-        const ANNOUNCEMENT_KEY = 'dr_ali_announcement';
-        const LAST_BOOKING_KEY = 'dr_ali_last_booking';
-
-        (function init() {
-            autoResetIfNeeded();
-            loadBackground();
-            displayAnnouncement();
-            updateAppointmentsDisplay();
-            generateQR();
-        })();
-
-        function autoResetIfNeeded() {
-            const lastReset = localStorage.getItem(LAST_RESET_KEY);
-            const now = Date.now();
-            const DAY = 86400000;
-            if (lastReset && (now - parseInt(lastReset) >= DAY)) {
-                resetAppointments();
-                localStorage.setItem(LAST_RESET_KEY, now.toString());
-            } else if (!lastReset) {
-                localStorage.setItem(LAST_RESET_KEY, now.toString());
-            }
-        }
-
-        function resetAppointments() {
-            const max = getMaxAppointments();
-            const empty = new Array(max).fill(null);
-            localStorage.setItem(APPOINTMENTS_KEY, JSON.stringify(empty));
-        }
-
-        function getMaxAppointments() {
-            return parseInt(localStorage.getItem(MAX_APPOINTMENTS_KEY)) || 17;
-        }
-
-        function getAppointments() {
-            const stored = localStorage.getItem(APPOINTMENTS_KEY);
-            if (stored) return JSON.parse(stored);
-            const max = getMaxAppointments();
-            return new Array(max).fill(null);
-        }
-
-        function saveAppointments(appointments) {
-            localStorage.setItem(APPOINTMENTS_KEY, JSON.stringify(appointments));
-        }
-
-        function loadBackground() {
-            const bg = localStorage.getItem(BACKGROUND_KEY);
-            if (bg) document.body.style.backgroundImage = `url('${bg}')`;
-        }
-
-        function displayAnnouncement() {
-            const msg = localStorage.getItem(ANNOUNCEMENT_KEY);
-            const div = document.getElementById('announcementDiv');
-            const span = document.getElementById('announcementText');
-            if (msg) {
-                span.textContent = msg;
-                div.style.display = 'flex';
-            } else {
-                div.style.display = 'none';
-            }
-        }
-
-        function canBookNow(name) {
-            const lastBookingJson = localStorage.getItem(LAST_BOOKING_KEY);
-            const lastBooking = lastBookingJson ? JSON.parse(lastBookingJson) : {};
-            const lastTime = lastBooking[name];
-            if (!lastTime) return true;
-            return (Date.now() - lastTime) >= 86400000;
-        }
-
-        function recordBooking(name) {
-            const lastBookingJson = localStorage.getItem(LAST_BOOKING_KEY);
-            const lastBooking = lastBookingJson ? JSON.parse(lastBookingJson) : {};
-            lastBooking[name] = Date.now();
-            localStorage.setItem(LAST_BOOKING_KEY, JSON.stringify(lastBooking));
-        }
-
-        function bookAppointment() {
-            const nameInput = document.getElementById('nameInput');
-            const name = nameInput.value.trim();
-            if (!name) {
-                alert('الرجاء إدخال الاسم');
-                return;
-            }
-
-            if (!canBookNow(name)) {
-                showMessage('⚠ يمكنك حجز موعد واحد فقط كل 24 ساعة. حاول غداً.', 'warning');
-                return;
-            }
-
-            let appointments = getAppointments();
-            const max = getMaxAppointments();
-
-            const firstEmpty = appointments.findIndex(v => v === null);
-            if (firstEmpty === -1) {
-                showMessage('⚠ العدد مكتمل اليوم، حاول غداً.', 'warning');
-                return;
-            }
-
-            appointments[firstEmpty] = name;
-            saveAppointments(appointments);
-            recordBooking(name);
-
-            showMessage(`✅ تم حجز رقم ${firstEmpty + 1}`, 'success');
-            nameInput.value = '';
-            updateAppointmentsDisplay();
-        }
-
-        function showMessage(text, type = 'info') {
-            const msgDiv = document.getElementById('singleMessage');
-            msgDiv.innerHTML = text;
-            msgDiv.className = 'message-area ' + (type === 'warning' ? 'warning-message' : '');
-            msgDiv.style.display = 'flex';
-            setTimeout(() => { msgDiv.style.display = 'none'; }, 4000);
-        }
-
-        function updateAppointmentsDisplay() {
-            const appointments = getAppointments();
-            const max = getMaxAppointments();
-            document.getElementById('maxCountSpan').textContent = max;
-
-            const container = document.getElementById('appointmentsList');
-            container.innerHTML = '';
-            for (let i = 0; i < max; i++) {
-                const div = document.createElement('div');
-                div.className = 'appointment-item' + (appointments[i] ? ' booked' : '');
-                
-                const numberSpan = document.createElement('div');
-                numberSpan.className = 'appointment-number';
-                numberSpan.textContent = i + 1;
-                
-                const nameSpan = document.createElement('div');
-                nameSpan.className = 'appointment-name';
-                nameSpan.textContent = appointments[i] || '______';
-                
-                div.appendChild(numberSpan);
-                div.appendChild(nameSpan);
-                container.appendChild(div);
-            }
-        }
-
-        function generateQR() {
-            const qrContainer = document.getElementById('qrContainer');
-            const url = window.location.href;
-            const qr = qrcode(0, 'M');
-            qr.addData(url);
-            qr.make();
-            qrContainer.innerHTML = qr.createImgTag(3);
-        }
-
-        setInterval(() => {
-            autoResetIfNeeded();
-            updateAppointmentsDisplay();
-            displayAnnouncement();
-        }, 60000);
-    </script>
+    <script src="js/main.js"></script>
 </body>
 </html>
