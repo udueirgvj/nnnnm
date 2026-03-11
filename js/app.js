@@ -1,13 +1,16 @@
+// js/app.js
 import { auth, db } from './firebase-config.js';
 import { signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// التحقق من حالة المصادقة في كل صفحة (عدا login)
+// التحقق من حالة المصادقة وتوجيه المستخدم
 export function checkAuth() {
   auth.onAuthStateChanged((user) => {
     if (!user) {
-      window.location.href = 'login.html';
+      // غير مسجل دخول → اذهب إلى صفحة تسجيل الدخول (index.html)
+      window.location.href = 'index.html';
     }
+    // إذا كان مسجلاً، يبقى في الصفحة الحالية (لا نعيد توجيهه)
   });
 }
 
@@ -22,7 +25,7 @@ export async function getUserData(uid) {
   }
 }
 
-// عرض اسم المستخدم والرصيد في الواجهة (إذا كانت العناصر موجودة)
+// عرض اسم المستخدم والرصيد في الواجهة (للاستخدام في الصفحات الداخلية)
 export function displayUserInfo() {
   const userData = JSON.parse(sessionStorage.getItem('userData'));
   if (userData) {
@@ -39,7 +42,7 @@ export async function logout() {
   try {
     await signOut(auth);
     sessionStorage.removeItem('userData');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   } catch (error) {
     console.error('خطأ في تسجيل الخروج', error);
   }
