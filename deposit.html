@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* أنماط إضافية */
         .address-box { background: #f0f0f0; padding: 15px; border-radius: 8px; direction: ltr; text-align: left; word-break: break-all; margin: 15px 0; }
         button { background: #0047ab; color: white; border: none; padding: 14px; border-radius: 8px; width: 100%; font-size: 16px; cursor: pointer; margin: 5px 0; }
         input { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 8px; }
@@ -18,7 +17,7 @@
     <div class="app-container">
         <header class="header">
             <div class="user-info">
-                <i class="fas fa-arrow-right" onclick="history.back()"></i>
+                <i class="fas fa-arrow-right" onclick="window.location.href='home.html'"></i>
                 <h2>إيداع عبر USDT</h2>
             </div>
             <div class="notifications">
@@ -42,7 +41,6 @@
             </div>
             <button onclick="copyAddress()">📋 نسخ العنوان</button>
 
-            <!-- QR Code اختياري -->
             <div style="text-align: center; margin: 20px 0;">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=YOUR_WALLET_ADDRESS_HERE" style="width:150px; height:150px;">
             </div>
@@ -55,7 +53,7 @@
         </div>
 
         <nav class="bottom-nav">
-            <a href="index.html" class="nav-item">
+            <a href="home.html" class="nav-item">
                 <i class="fas fa-home"></i>
                 <span>الرئيسية</span>
             </a>
@@ -90,7 +88,7 @@
         window.submitDeposit = async function() {
             const user = auth.currentUser;
             if (!user) {
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
                 return;
             }
             const txid = document.getElementById('txid').value;
